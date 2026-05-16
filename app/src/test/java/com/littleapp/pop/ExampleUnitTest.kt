@@ -1,4 +1,4 @@
-package com.example.pop_littleapp
+package com.littleapp.pop
 
 import org.junit.Test
 

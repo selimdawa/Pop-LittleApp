@@ -1,4 +1,4 @@
-package com.example.pop_littleapp
+package com.littleapp.pop
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
