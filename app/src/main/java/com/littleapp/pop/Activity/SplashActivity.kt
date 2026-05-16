@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.littleapp.pop.CLASS
+import com.littleapp.pop.Unit.CLASS
 import com.littleapp.pop.Unit.THEME
 import com.littleapp.pop.Unit.VOID
 import com.littleapp.pop.databinding.ActivitySplashBinding
