@@ -3,12 +3,13 @@ agp = "9.2.1"
 cardview = "1.0.0"
 coreKtx = "1.18.0"
 fragmentKtx = "1.6.2"
-jsoup = "1.13.1"
+jsoup = "1.22.2"
 kotlin = "2.3.21"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 appcompat = "1.7.1"
+lifecycleViewmodelKtx = "2.6.1"
 material = "1.14.0"
 activityKtx = "1.13.0"
 constraintlayout = "2.2.1"
@@ -27,12 +28,17 @@ hiltCompiler = "1.3.0"
 hilt = "2.59.2"
 ksp = "2.3.8"
 timber = "5.0.1"
+coil = "2.7.0"
+viewbinding-delegate = "1.5.9"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -52,6 +58,8 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+viewbinding-property-delegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "viewbinding-delegate" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

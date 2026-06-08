@@ -7,21 +7,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.littleapp.pop.R
+import com.littleapp.pop.HiltApplication
 import com.littleapp.pop.Unit.DATA
-import com.littleapp.pop.databinding.FragmentHomePopBinding
 import com.littleapp.pop.adapters.FunkoListAdapter
 import com.littleapp.pop.adapters.PopListener
+import com.littleapp.pop.databinding.FragmentHomeBinding
 import com.littleapp.pop.viewmodels.FunkoViewModel
-import com.littleapp.pop.HiltApplication
 import timber.log.Timber
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomePopBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: FunkoViewModel by activityViewModels {
         FunkoViewModel.FunkoViewModelFactory(
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_pop, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val adapter = FunkoListAdapter(PopListener { pop ->
             viewModel.onPopClicked(pop)
@@ -41,11 +41,14 @@ class HomeFragment : Fragment() {
 
         binding.apply {
             toolbar.nameSpace.text = DATA.POP
-            funkoViewModel = viewModel
-            lifecycleOwner = this.lifecycleOwner
-            //recyclerView.adapter = adapter
+            recyclerView.adapter = adapter
             progressBar.visibility = View.VISIBLE
             searchEtLayout.visibility = View.INVISIBLE
+
+            searchEt.doAfterTextChanged { text ->
+                viewModel.filterText.value = text.toString()
+                viewModel.filter()
+            }
         }
 
         loadData(adapter)
@@ -57,16 +60,19 @@ class HomeFragment : Fragment() {
         if (isOnline(requireContext())) {
             binding.swipeLayout.setOnRefreshListener { binding.swipeLayout.isRefreshing = false }
             showComponents()
+
             viewModel.fetchData().observe(viewLifecycleOwner) { _ ->
                 binding.apply {
                     progressBar.visibility = View.GONE
                     searchEtLayout.visibility = View.VISIBLE
                 }
-                viewModel.isListFiltered.observe(viewLifecycleOwner) {
-                    if (it)
+
+                viewModel.isListFiltered.observe(viewLifecycleOwner) { isFiltered ->
+                    if (isFiltered) {
                         adapter.submitList(viewModel.getFilteredList(viewModel.filterText.value.toString()))
-                    else
+                    } else {
                         adapter.submitList(viewModel.pops.value)
+                    }
                 }
             }
         } else {
@@ -83,7 +89,7 @@ class HomeFragment : Fragment() {
     private fun showComponents() {
         binding.apply {
             progressBar.visibility = View.VISIBLE
-            //recyclerView.visibility = View.VISIBLE
+            recyclerView.visibility = View.VISIBLE
             searchEtLayout.visibility = View.VISIBLE
             netTv.visibility = View.GONE
         }
@@ -92,7 +98,7 @@ class HomeFragment : Fragment() {
     private fun hideComponents() {
         binding.apply {
             progressBar.visibility = View.GONE
-            //recyclerView.visibility = View.GONE
+            recyclerView.visibility = View.GONE
             searchEtLayout.visibility = View.GONE
             netTv.visibility = View.VISIBLE
         }
@@ -116,5 +122,10 @@ class HomeFragment : Fragment() {
             }
         }
         return false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

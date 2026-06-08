@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.navigation.safeargs.kotlin)
     alias(libs.plugins.ksp.processor)
     alias(libs.plugins.daggerHiltAndroid)
-    id("kotlin-parcelize")
 }
 
 android {
@@ -63,15 +62,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.cardview)
-
-    val lifecycleVersion = "2.8.7" // Use the latest stable version
-
-    //Life Cycle
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")     //Life Cycle Extensions
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.10.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
-    implementation("android.arch.lifecycle:common-java8:1.1.1")
+    //Image
+    implementation(libs.picasso)                         //Picasso
+    implementation(libs.coil.kt)    //Coil
+    //Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     //Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
@@ -84,7 +81,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.hilt.compiler)
     //Other's
-    implementation(libs.picasso)                         //Picasso
     implementation(libs.timber)                          //Timber Log
     implementation(libs.jsoup)                           //Jsoup
+    implementation(libs.viewbinding.property.delegate)
 }
