@@ -82,4 +82,5 @@ dependencies {
     implementation(libs.timber)                          //Timber Log
     implementation(libs.jsoup)                           //Jsoup
     implementation(libs.viewbinding.property.delegate)
+    ksp(libs.kotlin.metadata.jvm)
 }
