@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safeargs.kotlin)
     alias(libs.plugins.ksp.processor)
     alias(libs.plugins.daggerHiltAndroid)
@@ -35,11 +34,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
-    }
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -58,11 +52,9 @@ dependencies {
     //Layout
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
-    implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.cardview)
     //Image
     implementation(libs.picasso)                         //Picasso
-    implementation(libs.coil.kt)    //Coil
+    implementation(libs.coil.kt)                         //Coil
     //Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -76,11 +68,8 @@ dependencies {
     //Dagger-Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.androidx.hilt.compiler)
     //Other's
     implementation(libs.timber)                          //Timber Log
     implementation(libs.jsoup)                           //Jsoup
     implementation(libs.viewbinding.property.delegate)
-    ksp(libs.kotlin.metadata.jvm)
 }
