@@ -10,16 +10,20 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.littleapp.pop.R
 import com.littleapp.pop.Unit.THEME
+import com.littleapp.pop.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    var context = this@MainActivity
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //THEME.setThemeOfApp(context)
+        THEME.setThemeOfApp(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -27,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev!!.action == MotionEvent.ACTION_DOWN) {
+        if (ev?.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
             if (v is EditText) {
                 val outRect = Rect()
@@ -35,10 +39,15 @@ class MainActivity : AppCompatActivity() {
                 if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
                     v.clearFocus()
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

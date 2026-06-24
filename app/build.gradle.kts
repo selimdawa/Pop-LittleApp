@@ -35,7 +35,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 }
@@ -45,13 +44,14 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)              //Kotlin Fragment
-    implementation(libs.androidx.preference.ktx)           //Shared Preference
+    implementation(libs.androidx.preference.ktx)            //Shared Preference
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     //Layout
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
+    implementation(libs.androidx.swiperefreshlayout)
     //Image
     implementation(libs.picasso)                         //Picasso
     implementation(libs.coil.kt)                         //Coil
@@ -71,5 +71,4 @@ dependencies {
     //Other's
     implementation(libs.timber)                          //Timber Log
     implementation(libs.jsoup)                           //Jsoup
-    implementation(libs.viewbinding.property.delegate)
 }

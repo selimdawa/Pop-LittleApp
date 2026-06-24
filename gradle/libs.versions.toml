@@ -24,7 +24,7 @@ hilt = "2.59.2"
 ksp = "2.3.8"
 timber = "5.0.1"
 coil = "2.7.0"
-viewbinding-delegate = "1.5.9"
+swiperefreshlayout = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,7 +50,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltA
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-viewbinding-property-delegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "viewbinding-delegate" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

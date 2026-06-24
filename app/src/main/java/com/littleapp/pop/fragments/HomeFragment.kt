@@ -34,6 +34,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val adapter = FunkoListAdapter(PopListener { pop ->
             viewModel.onPopClicked(pop)
@@ -52,11 +57,9 @@ class HomeFragment : Fragment() {
         }
 
         loadData(adapter)
-
-        return binding.root
     }
 
-    fun loadData(adapter: FunkoListAdapter) {
+    private fun loadData(adapter: FunkoListAdapter) {
         if (isOnline(requireContext())) {
             binding.swipeLayout.setOnRefreshListener { binding.swipeLayout.isRefreshing = false }
             showComponents()
@@ -76,12 +79,10 @@ class HomeFragment : Fragment() {
                 }
             }
         } else {
-            binding.apply {
-                hideComponents()
-                swipeLayout.setOnRefreshListener {
-                    loadData(adapter)
-                    swipeLayout.isRefreshing = false
-                }
+            hideComponents()
+            binding.swipeLayout.setOnRefreshListener {
+                loadData(adapter)
+                binding.swipeLayout.isRefreshing = false
             }
         }
     }
@@ -104,21 +105,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                Timber.i("NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                Timber.i("NetworkCapabilities.TRANSPORT_WIFI")
-                return true
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                Timber.i("NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
+            when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                    Timber.i("NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                }
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                    Timber.i("NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                }
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                    Timber.i("NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
             }
         }
         return false
