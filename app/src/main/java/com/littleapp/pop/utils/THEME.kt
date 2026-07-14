@@ -1,4 +1,4 @@
-package com.littleapp.pop.Unit
+package com.littleapp.pop.utils
 
 import android.content.Context
 import androidx.preference.PreferenceManager

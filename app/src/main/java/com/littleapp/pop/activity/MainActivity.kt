@@ -1,4 +1,4 @@
-package com.littleapp.pop.Activity
+package com.littleapp.pop.activity
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.littleapp.pop.R
-import com.littleapp.pop.Unit.THEME
+import com.littleapp.pop.utils.THEME
 import com.littleapp.pop.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

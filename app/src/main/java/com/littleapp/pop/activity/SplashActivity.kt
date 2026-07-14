@@ -1,14 +1,16 @@
-package com.littleapp.pop.Activity
+package com.littleapp.pop.activity
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.littleapp.pop.Unit.CLASS
-import com.littleapp.pop.Unit.THEME
-import com.littleapp.pop.Unit.VOID
+import com.littleapp.pop.utils.CLASS
+import com.littleapp.pop.utils.THEME
+import com.littleapp.pop.utils.VOID
 import com.littleapp.pop.databinding.ActivitySplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private var _binding: ActivitySplashBinding? = null

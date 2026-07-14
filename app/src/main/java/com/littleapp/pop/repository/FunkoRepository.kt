@@ -1,11 +1,15 @@
 package com.littleapp.pop.repository
 
-import com.littleapp.pop.Unit.DATA
-import com.littleapp.pop.models.PopItem
+import com.littleapp.pop.utils.DATA
+import com.littleapp.pop.model.PopItem
 import org.jsoup.Jsoup
 import java.io.IOException
 
-class FunkoRepository {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class FunkoRepository @Inject constructor() {
 
     fun getFunkoPops(): MutableList<PopItem> {
         val listData = mutableListOf<PopItem>()

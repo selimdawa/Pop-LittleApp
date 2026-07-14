@@ -1,6 +1,6 @@
-package com.littleapp.pop.Unit
+package com.littleapp.pop.utils
 
-import com.littleapp.pop.Activity.*
+import com.littleapp.pop.activity.*
 
 object CLASS {
     val MAIN: Class<*> = MainActivity::class.java

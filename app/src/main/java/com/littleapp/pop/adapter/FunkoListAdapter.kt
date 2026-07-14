@@ -1,4 +1,4 @@
-package com.littleapp.pop.adapters
+package com.littleapp.pop.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.littleapp.pop.databinding.ItemPopBinding
-import com.littleapp.pop.models.PopItem
+import com.littleapp.pop.model.PopItem
 import com.squareup.picasso.Picasso
 
 class FunkoListAdapter(private val clickListener: PopListener) :

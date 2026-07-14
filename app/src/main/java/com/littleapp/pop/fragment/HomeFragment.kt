@@ -1,4 +1,4 @@
-package com.littleapp.pop.fragments
+package com.littleapp.pop.fragment
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -9,25 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import com.littleapp.pop.HiltApplication
-import com.littleapp.pop.Unit.DATA
-import com.littleapp.pop.adapters.FunkoListAdapter
-import com.littleapp.pop.adapters.PopListener
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.littleapp.pop.R
+import com.littleapp.pop.utils.DATA
+import com.littleapp.pop.adapter.FunkoListAdapter
+import com.littleapp.pop.adapter.PopListener
 import com.littleapp.pop.databinding.FragmentHomeBinding
 import com.littleapp.pop.viewmodels.FunkoViewModel
 import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FunkoViewModel by activityViewModels {
-        FunkoViewModel.FunkoViewModelFactory(
-            (activity?.application as HiltApplication).repository
-        )
-    }
+    private val viewModel: FunkoViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,4 +1,4 @@
-package com.littleapp.pop.models
+package com.littleapp.pop.model
 
 data class PopItem(
     val id: Int,

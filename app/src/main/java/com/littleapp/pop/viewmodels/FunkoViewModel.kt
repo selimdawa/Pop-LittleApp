@@ -3,14 +3,17 @@ package com.littleapp.pop.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.littleapp.pop.models.PopItem
+import com.littleapp.pop.model.PopItem
 import com.littleapp.pop.repository.FunkoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FunkoViewModel(private val funkoRepository: FunkoRepository) : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepository) : ViewModel() {
 
     private val _pops = MutableLiveData<MutableList<PopItem>>()
     val pops: LiveData<MutableList<PopItem>> get() = _pops
@@ -46,16 +49,5 @@ class FunkoViewModel(private val funkoRepository: FunkoRepository) : ViewModel()
 
     fun onPopClicked(pop: PopItem) {
         _pop.value = pop
-    }
-
-    class FunkoViewModelFactory(private val funkoRepository: FunkoRepository) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(FunkoViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return FunkoViewModel(funkoRepository) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }
