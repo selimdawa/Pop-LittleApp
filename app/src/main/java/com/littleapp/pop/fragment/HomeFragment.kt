@@ -78,30 +78,41 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadData(adapter: FunkoListAdapter) {
-        if (isOnline(requireContext())) {
-            binding.swipeLayout.setOnRefreshListener { binding.swipeLayout.isRefreshing = false }
-            showComponents()
+        showComponents()
+        
+        viewModel.fetchData()
 
-            viewModel.fetchData().observe(viewLifecycleOwner) { _ ->
+        viewModel.pops.observe(viewLifecycleOwner) { pops ->
+            if (pops != null && pops.isNotEmpty()) {
                 binding.apply {
                     progressBar.visibility = View.GONE
                     searchEtLayout.visibility = View.VISIBLE
                 }
+            }
 
-                viewModel.isListFiltered.observe(viewLifecycleOwner) { isFiltered ->
-                    if (isFiltered) {
-                        adapter.submitList(viewModel.getFilteredList(viewModel.filterText.value.toString()))
-                    } else {
-                        adapter.submitList(viewModel.pops.value)
-                    }
-                }
+            if (viewModel.isListFiltered.value == true) {
+                adapter.submitList(viewModel.getFilteredList(viewModel.filterText.value.toString()))
+            } else {
+                adapter.submitList(pops)
             }
-        } else {
-            hideComponents()
-            binding.swipeLayout.setOnRefreshListener {
-                loadData(adapter)
-                binding.swipeLayout.isRefreshing = false
+        }
+
+        viewModel.isListFiltered.observe(viewLifecycleOwner) { isFiltered ->
+            if (isFiltered) {
+                adapter.submitList(viewModel.getFilteredList(viewModel.filterText.value.toString()))
+            } else {
+                adapter.submitList(viewModel.pops.value)
             }
+        }
+
+        binding.swipeLayout.setOnRefreshListener {
+            viewModel.fetchData()
+            binding.swipeLayout.isRefreshing = false
+        }
+
+        if (!isOnline(requireContext())) {
+            // Optional: show a message that data might be old
+            Timber.i("Device is offline, showing cached data")
         }
     }
 
@@ -111,15 +122,6 @@ class HomeFragment : Fragment() {
             recyclerView.visibility = View.VISIBLE
             searchEtLayout.visibility = View.VISIBLE
             netTv.visibility = View.GONE
-        }
-    }
-
-    private fun hideComponents() {
-        binding.apply {
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            searchEtLayout.visibility = View.GONE
-            netTv.visibility = View.VISIBLE
         }
     }
 

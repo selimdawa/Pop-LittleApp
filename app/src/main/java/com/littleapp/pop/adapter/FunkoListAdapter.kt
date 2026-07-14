@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.littleapp.pop.databinding.ItemPopBinding
 import com.littleapp.pop.model.PopItem
+import com.littleapp.pop.utils.DATA
 import com.squareup.picasso.Picasso
 
 class FunkoListAdapter(private val clickListener: PopListener) :
@@ -22,10 +23,10 @@ class FunkoListAdapter(private val clickListener: PopListener) :
                 clickListener.onClick(pop)
             }
 
+            val imageToLoad = if (pop.img.isEmpty() || !pop.img.startsWith("http")) DATA.IMAGE_POP else pop.img
+            
             Picasso.get()
-                .load(pop.img)
-                .resize(320, 320)
-                .centerCrop()
+                .load(imageToLoad)
                 .into(binding.imageView)
         }
     }

@@ -43,18 +43,22 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.fragment.ktx)              //Kotlin Fragment
+    implementation(libs.androidx.preference.ktx)            //Shared Preference
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //Layout
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.picasso)
-    implementation(libs.coil.kt)
+    //Image
+    implementation(libs.picasso)                         //Picasso
+    implementation(libs.coil.kt)                         //Coil
+    //Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    //Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     //Room
@@ -67,6 +71,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
-    implementation(libs.jsoup)
-    implementation(libs.timber)
+    //Other's
+    implementation(libs.jsoup)                           //Jsoup
+    implementation(libs.timber)                          //Timber Log
 }

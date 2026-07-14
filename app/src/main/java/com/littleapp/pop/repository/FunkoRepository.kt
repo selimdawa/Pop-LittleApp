@@ -1,55 +1,79 @@
 package com.littleapp.pop.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import com.littleapp.pop.db.PopDao
 import com.littleapp.pop.model.PopItem
 import com.littleapp.pop.utils.DATA
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FunkoRepository @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val popDao: PopDao
 ) {
 
-    fun getFunkoPops(): MutableList<PopItem> {
-        val listData = mutableListOf<PopItem>()
-        try {
-            val jsonString = context.assets.open(DATA.FILE_POP).bufferedReader().use {
-                it.readText()
-            }
+    val pops: LiveData<List<PopItem>> = popDao.getAllPops()
 
-            val jsonArray = JSONArray(jsonString)
-            val limit = if (jsonArray.length() > 500) 500 else jsonArray.length()
-
-            for (i in 0 until limit) {
-                val item = jsonArray.getJSONObject(i)
-                val img = item.optString("imageName", "")
-
-                if (img.isEmpty() || img.contains("placeholder.png")) {
-                    continue
+    suspend fun refreshPops() {
+        withContext(Dispatchers.IO) {
+            try {
+                val jsonString = context.assets.open(DATA.FILE_POP).bufferedReader().use {
+                    it.readText()
                 }
 
-                val name = item.optString("title", DATA.Unknown)
+                val jsonArray = JSONArray(jsonString)
+                val listData = mutableListOf<PopItem>()
+                val limit = jsonArray.length()
 
-                val seriesJson = item.optJSONArray("series")
-                val series = if (seriesJson != null && seriesJson.length() > 0) {
+                for (i in 0 until limit) {
+                    if (listData.size >= 200) break
+
+                    val item = jsonArray.getJSONObject(i)
+                    val img = item.optString("imageName", "")
+                    val name = item.optString("title", DATA.UNKNOWN)
+                    
+                    val seriesJson = item.optJSONArray("series")
                     val seriesList = mutableListOf<String>()
-                    for (j in 0 until seriesJson.length()) {
-                        seriesList.add(seriesJson.getString(j))
+                    if (seriesJson != null) {
+                        for (j in 0 until seriesJson.length()) {
+                            seriesList.add(seriesJson.getString(j))
+                        }
                     }
-                    seriesList.joinToString(", ")
-                } else {
-                    DATA.Unknown
+
+                    if (img.isEmpty() || 
+                        img.contains("placeholder", ignoreCase = true) || 
+                        !img.startsWith("http") ||
+                        name == DATA.UNKNOWN || 
+                        name.isBlank() ||
+                        seriesList.any { it.contains("Keychain", true) || it.contains("Pocket", true) || it.contains("Pins", true) } ||
+                        img.contains("Keychains", ignoreCase = true)
+                    ) {
+                        continue
+                    }
+
+                    val series = if (seriesList.isNotEmpty()) {
+                        seriesList.joinToString(", ")
+                    } else {
+                        DATA.UNKNOWN
+                    }
+
+                    listData.add(PopItem(i, name, img, series))
+                }
+                
+                if (listData.isNotEmpty()) {
+                    popDao.deleteAllPops()
+                    popDao.insertPops(listData)
                 }
 
-                listData.add(PopItem(i, name, img, series))
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-        return listData
     }
 }

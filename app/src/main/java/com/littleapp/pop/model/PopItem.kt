@@ -1,7 +1,11 @@
 package com.littleapp.pop.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "funko_pops")
 data class PopItem(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val name: String,
     val img: String,
     val series: String,

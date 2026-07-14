@@ -6,17 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.littleapp.pop.model.PopItem
 import com.littleapp.pop.repository.FunkoRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepository) : ViewModel() {
 
-    private val _pops = MutableLiveData<MutableList<PopItem>>()
-    val pops: LiveData<MutableList<PopItem>> get() = _pops
+    val pops: LiveData<List<PopItem>> = funkoRepository.pops
 
     private val _pop = MutableLiveData<PopItem>()
     val pop: LiveData<PopItem> get() = _pop
@@ -26,11 +23,10 @@ class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepos
     private val _isListFiltered = MutableLiveData(false)
     val isListFiltered: LiveData<Boolean> get() = _isListFiltered
 
-    fun fetchData(): LiveData<MutableList<PopItem>> {
-        viewModelScope.launch(Dispatchers.IO) {
-            _pops.postValue(funkoRepository.getFunkoPops())
+    fun fetchData() {
+        viewModelScope.launch {
+            funkoRepository.refreshPops()
         }
-        return pops
     }
 
     fun filter() {
@@ -39,7 +35,7 @@ class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepos
     }
 
     fun getFilteredList(text: String): List<PopItem> {
-        val currentPops = _pops.value ?: return emptyList()
+        val currentPops = pops.value ?: return emptyList()
         val query = text.lowercase()
 
         return currentPops.filter { pop ->
