@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.littleapp.pop.R
-import com.littleapp.pop.utils.THEME
 import com.littleapp.pop.databinding.ActivityMainBinding
+import com.littleapp.pop.utils.THEME
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

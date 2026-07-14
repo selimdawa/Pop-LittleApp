@@ -14,8 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FunkoRepository @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val popDao: PopDao
+    @ApplicationContext private val context: Context, private val popDao: PopDao
 ) {
 
     val pops: LiveData<List<PopItem>> = popDao.getAllPops()
@@ -37,7 +36,7 @@ class FunkoRepository @Inject constructor(
                     val item = jsonArray.getJSONObject(i)
                     val img = item.optString("imageName", "")
                     val name = item.optString("title", DATA.UNKNOWN)
-                    
+
                     val seriesJson = item.optJSONArray("series")
                     val seriesList = mutableListOf<String>()
                     if (seriesJson != null) {
@@ -46,13 +45,14 @@ class FunkoRepository @Inject constructor(
                         }
                     }
 
-                    if (img.isEmpty() || 
-                        img.contains("placeholder", ignoreCase = true) || 
-                        !img.startsWith("http") ||
-                        name == DATA.UNKNOWN || 
-                        name.isBlank() ||
-                        seriesList.any { it.contains("Keychain", true) || it.contains("Pocket", true) || it.contains("Pins", true) } ||
-                        img.contains("Keychains", ignoreCase = true)
+                    if (img.isEmpty() || img.contains(
+                            "placeholder",
+                            ignoreCase = true
+                        ) || !img.startsWith("http") || name == DATA.UNKNOWN || name.isBlank() || seriesList.any {
+                            it.contains("Keychain", true) || it.contains(
+                                "Pocket", true
+                            ) || it.contains("Pins", true)
+                        } || img.contains("Keychains", ignoreCase = true)
                     ) {
                         continue
                     }
@@ -65,7 +65,7 @@ class FunkoRepository @Inject constructor(
 
                     listData.add(PopItem(i, name, img, series))
                 }
-                
+
                 if (listData.isNotEmpty()) {
                     popDao.deleteAllPops()
                     popDao.insertPops(listData)

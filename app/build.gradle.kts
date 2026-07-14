@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.swiperefreshlayout)
     //Image
-    implementation(libs.picasso)                         //Picasso
     implementation(libs.coil.kt)                         //Coil
     //Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -72,6 +71,5 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.fragment)
     //Other's
-    implementation(libs.jsoup)                           //Jsoup
     implementation(libs.timber)                          //Timber Log
 }
