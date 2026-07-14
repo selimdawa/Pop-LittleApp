@@ -46,8 +46,7 @@ class FunkoRepository @Inject constructor(
                     }
 
                     if (img.isEmpty() || img.contains(
-                            "placeholder",
-                            ignoreCase = true
+                            "placeholder", ignoreCase = true
                         ) || !img.startsWith("http") || name == DATA.UNKNOWN || name.isBlank() || seriesList.any {
                             it.contains("Keychain", true) || it.contains(
                                 "Pocket", true

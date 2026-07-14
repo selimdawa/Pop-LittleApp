@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.littleapp.pop.model.PopItem
 import com.littleapp.pop.repository.FunkoRepository
-import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepository) : ViewModel() {
+class FunkoViewModel @Inject constructor(private val funkoRepository: FunkoRepository) :
+    ViewModel() {
 
     val pops: LiveData<List<PopItem>> = funkoRepository.pops
 
